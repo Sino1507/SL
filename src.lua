@@ -197,3 +197,5 @@ function Lib:read(name)
 
     return setting
 end
+
+return Lib
