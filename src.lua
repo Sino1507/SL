@@ -111,7 +111,8 @@ function _createsetting(name, content, Version, Git)
         end
     end
 
-    writefile(file, content)
+    local decode = game:GetService('HttpService'):JSONDecode(content)
+    writefile(file, decode)
 
     local VERSION_FILE = name..'V'..FILE_EXTENSION
 
