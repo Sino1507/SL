@@ -101,7 +101,7 @@ end
 
 function _createsetting(name, content, Version, Git)
     local file = name..FILE_EXTENSION or 'Untitled'..FILE_EXTENSION
-    local content = content or ''
+    local content = content or {}
     local version = Version or '0.0.0'
     local git = Git
     
@@ -111,8 +111,8 @@ function _createsetting(name, content, Version, Git)
         end
     end
 
-    local decode = game:GetService('HttpService'):JSONDecode(content)
-    writefile(file, decode)
+    _content = game:GetService('HttpService'):JSONEncode(content)
+    writefile(file, _content)
 
     local VERSION_FILE = name..'V'..FILE_EXTENSION
 
@@ -161,12 +161,12 @@ function Lib:overwrite(Name, Overwrite, Git, NewVersion)
         local vcontent = readfile(version)
 
         if Overwrite then
-            local content = Overwrite
+            content = game:GetService('HttpService'):JSONEncode(Overwrite)
             local git = Git or 'Not set'
 
             if git and git ~= 'Not set' then
                 if _checkgit(git) then
-                    content = _getContent(git)
+                    content = game:GetService('HttpService'):JSONEncode(_getContent(git))
                 end
             end
 
@@ -185,7 +185,7 @@ function _readsettings(name)
 
     if isfile(file) then
         local content = readfile(file)
-        local encode = _jencode(content)
+        local encode = _jdecode(content)
 
         return encode
     else
