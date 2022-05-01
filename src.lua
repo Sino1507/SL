@@ -99,17 +99,10 @@ function _checkgit(url)
     end
 end
 
-function _createsetting(name, content, Version, Git)
+function _createsetting(name, content, Version)
     local file = name..FILE_EXTENSION or 'Untitled'..FILE_EXTENSION
     local content = content or {}
     local version = Version or '0.0.0'
-    local git = Git
-    
-    if git and git ~= 'Not set' then
-        if _checkgit(git) then
-            content = _getContent(git)
-        end
-    end
 
     _content = game:GetService('HttpService'):JSONEncode(content)
     writefile(file, _content)
@@ -119,11 +112,10 @@ function _createsetting(name, content, Version, Git)
     writefile(VERSION_FILE, version)
 end
 
-function Lib:new(Name, Content, Version, Git)
+function Lib:new(Name, Content, Version)
     local name = Name or 'Untitled'
     local content = Content or ''
     local version = Version or '0.0.0'
-    local git = Git or 'Not set'
 
     _createsetting(name, content, version, git)
 end
@@ -152,7 +144,7 @@ function _jencode(str)
     return encode
 end
 
-function Lib:overwrite(Name, Overwrite, Git, NewVersion)
+function Lib:overwrite(Name, Overwrite, NewVersion)
     local file = Name..FILE_EXTENSION or 'Untitled'..FILE_EXTENSION
     local version = Name..'V'..FILE_EXTENSION or 'Untitled'..'V'..FILE_EXTENSION
 
@@ -163,12 +155,6 @@ function Lib:overwrite(Name, Overwrite, Git, NewVersion)
         if Overwrite then
             content = game:GetService('HttpService'):JSONEncode(Overwrite)
             local git = Git or 'Not set'
-
-            if git and git ~= 'Not set' then
-                if _checkgit(git) then
-                    content = game:GetService('HttpService'):JSONEncode(_getContent(git))
-                end
-            end
 
             writefile(file, content)
         end
@@ -198,5 +184,6 @@ function Lib:read(name)
 
     return setting
 end
+
 
 return Lib
