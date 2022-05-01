@@ -23,7 +23,7 @@ Lib:new('Saved', {killaura = false, killaura_key = 'K'}, '1.0.0')
 --This would save a setting called 'Saved' with the content {killaura = false, killaura_key = 'K'} and version 1.0.0.
 
 --Now we can access the setting with Lib:read('Saved')
---This tool we return us our saved settings.
+--This tool will return us our saved settings.
 --Example:
 
 local settings = Lib:read('Saved')
@@ -51,7 +51,7 @@ print(read.killaura)
 
 --Now it would return true.
 
---If you would to delete a setting you can do this:
+--If you want to delete a setting you can do this:
 --Lib:delete(name)
 --name is needed.
 --Example:
